@@ -36,6 +36,10 @@ export default function Home({ navigation }) {
     navigation.navigate("Register");
   }
 
+  function Contact() {
+    navigation.navigate("Change");
+  }
+
   return (
     <>
       <TouchableOpacity onPress={Add} style={styles.button}>
@@ -78,7 +82,7 @@ export default function Home({ navigation }) {
             <Text style={styles.textRegular}>FAVORITOS</Text>
           </View>
           {favorite.map((contact) => (
-            <TouchableOpacity style={styles.itemsOnTheLeft}>
+            <TouchableOpacity onPress={Contact} style={styles.itemsOnTheLeft}>
               <View style={styles.imageContact} />
               <Text style={styles.textBold}>{contact}</Text>
             </TouchableOpacity>
@@ -87,7 +91,7 @@ export default function Home({ navigation }) {
             <Text style={styles.textRegular}>A</Text>
           </View>
           {contacts.map((contact) => (
-            <TouchableOpacity style={styles.itemsOnTheLeft}>
+            <TouchableOpacity onPress={Contact} style={styles.itemsOnTheLeft}>
               <View style={styles.imageContact} />
               <Text style={styles.textBold}>{contact}</Text>
             </TouchableOpacity>

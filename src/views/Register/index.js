@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Switch,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -15,18 +16,32 @@ import close from "../../assets/close.png";
 import check from "../../assets/check.png";
 import contact from "../../assets/contact.png";
 
-export default function Register() {
+export default function Register({ navigation }) {
   const [selectionGroup, setSelectionGroup] = useState();
   const [favorite, setFavorite] = useState();
+
+  function back() {
+    navigation.navigate("Home");
+  }
+
+  function save() {
+    Alert.alert("Contato salvo", "", [
+      {},
+      {
+        text: "Ok",
+        onPress: () => navigation.navigate("Home"),
+      },
+    ]);
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={back}>
           <Image source={close} />
         </TouchableOpacity>
         <Text style={styles.textTitle}>Novo Contato</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={save}>
           <Image source={check} />
         </TouchableOpacity>
       </View>
@@ -52,7 +67,7 @@ export default function Register() {
       <View style={styles.inputBig}>
         <TextInput style={styles.placeholder} placeholder="Endereço" />
       </View>
-      <View style={styles.selecte}>
+      <View style={styles.select}>
         <View style={styles.containerPicker}>
           <Picker
             selectedValue={selectionGroup}
@@ -61,6 +76,7 @@ export default function Register() {
             }
             placeholder="Selecione o Grupo"
           >
+            <Picker.Item label=" " value=" " />
             <Picker.Item label="Familia" value="Familia" />
             <Picker.Item label="Amigos" value="Amigos" />
             <Picker.Item label="Trabalho" value="Trabalho" />
@@ -72,7 +88,7 @@ export default function Register() {
           value={favorite}
           thumbColor={favorite ? "#00761B" : "#EE6B26"}
         />
-        <Text>Favorito</Text>
+        <Text style={styles.textBold}>Favorito</Text>
       </View>
     </View>
   );

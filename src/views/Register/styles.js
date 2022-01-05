@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5.46,
     elevation: 9,
   },
-  selecte: {
+  select: {
     flexDirection: "row",
     width: "90%",
     justifyContent: "space-between",
@@ -85,6 +85,11 @@ const styles = StyleSheet.create({
     borderColor: "#382e1e",
     backgroundColor: "#CF9F69",
     paddingLeft: 16,
+  },
+  textBold: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#382E1E",
   },
 });
 
