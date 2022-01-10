@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 5,
     borderRadius: 15,
-    width: "70%",
+    width: "65%",
     height: 50,
     borderColor: "#382e1e",
     backgroundColor: "#CF9F69",
@@ -90,6 +90,51 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "#382E1E",
+  },
+  field: {
+    marginTop: 15,
+  },
+  add: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#0645AD",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginTop: 22,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    marginBottom: 30,
+  },
+  modalView: {
+    width: "100%",
+    height: 350,
+    backgroundColor: "white",
+    borderTopRightRadius: 25,
+    borderTopLeftRadius: 25,
+    padding: 35,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  modalText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 60,
+    textAlign: "center",
+  },
+  textImage: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  textStyle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: "left",
+    marginBottom: 30,
   },
 });
 

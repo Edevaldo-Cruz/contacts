@@ -66,6 +66,17 @@ const styles = StyleSheet.create({
     right: 20,
     zIndex: 1,
   },
+  footer: {
+    width: "90%",
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    top: 230,
+  },
+  containerFooter: {
+    alignItems: "center",
+    margin: 15,
+  },
 });
 
 export default styles;

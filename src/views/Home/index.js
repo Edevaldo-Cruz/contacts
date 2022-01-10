@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -6,9 +6,13 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 
+import api from "../../services/api";
+
 import styles from "./styles";
+import Contacts from "../../components/contacts";
 
 import search from "../../assets/search.png";
 import allContacts from "../../assets/arrows-scroll-v.png";
@@ -18,27 +22,43 @@ import group from "../../assets/group.png";
 import button from "../../assets/button.png";
 
 export default function Home({ navigation }) {
-  const favorite = ["Amor", "Mãe"];
-  const contacts = [
-    "Cloe",
-    "Lia",
-    "Guilherme",
-    "Henrique",
-    "Michael",
-    "Larissa",
-    "Ágata",
-    "Alessandra",
-    "Bernardo",
-    "Anderson",
-  ];
+  const [contactsFavorite, setContactsFavorite] = useState([]);
+  const [numContacts, setNumContacts] = useState([]);
+  const [content, setContent] = useState([]);
 
   function Add() {
     navigation.navigate("Register");
   }
 
-  function Contact() {
-    navigation.navigate("Change");
+  function Show(id) {
+    navigation.navigate("Change", {
+      paramKey: id,
+    });
   }
+
+  async function All() {
+    await api.get("/contacts/filter/all/").then((response) => {
+      setContent(response.data);
+    });
+  }
+
+  async function Favorite() {
+    await api.get("/contacts/filter/favorite/").then((response) => {
+      setContactsFavorite(response.data);
+    });
+  }
+
+  async function NumberContacts() {
+    await api.get("/contacts/filter/all/").then((response) => {
+      setNumContacts(response.data.length);
+    });
+  }
+
+  useEffect(() => {
+    NumberContacts();
+    Favorite();
+    All();
+  }, [contactsFavorite]);
 
   return (
     <>
@@ -49,7 +69,7 @@ export default function Home({ navigation }) {
         <View style={styles.container}>
           <View style={styles.search}>
             <Image source={search} style={styles.image} />
-            <TextInput placeholder={"236 contatos"} />
+            <TextInput placeholder={`${numContacts} contatos`} />
           </View>
           <View style={styles.itemsOnTheLeft}>
             <Text style={styles.textRegular}>Todos os Contatos</Text>
@@ -81,20 +101,17 @@ export default function Home({ navigation }) {
           <View style={styles.itemsOnTheLeft}>
             <Text style={styles.textRegular}>FAVORITOS</Text>
           </View>
-          {favorite.map((contact) => (
-            <TouchableOpacity onPress={Contact} style={styles.itemsOnTheLeft}>
-              <View style={styles.imageContact} />
-              <Text style={styles.textBold}>{contact}</Text>
-            </TouchableOpacity>
+          {contactsFavorite.map((t) => (
+            <Contacts name={t.name} onPress={() => Show(t._id)} />
           ))}
           <View style={styles.itemsOnTheLeft}>
             <Text style={styles.textRegular}>A</Text>
           </View>
-          {contacts.map((contact) => (
-            <TouchableOpacity onPress={Contact} style={styles.itemsOnTheLeft}>
-              <View style={styles.imageContact} />
-              <Text style={styles.textBold}>{contact}</Text>
-            </TouchableOpacity>
+
+          {content.map((t) => (
+            <>
+              <Contacts name={t.name} onPress={() => Show(t._id)} />
+            </>
           ))}
         </View>
       </ScrollView>
