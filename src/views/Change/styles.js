@@ -77,6 +77,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 15,
   },
+  modalContainer: {
+    width: "100%",
+    alignItems: "flex-end",
+    marginTop: 20,
+    marginRight: 300,
+  },
+  modalView: {
+    width: "60%",
+    height: 100,
+    backgroundColor: "white",
+    borderRadius: 25,
+    padding: 35,
+    justifyContent: "center",
+  },
 });
 
 export default styles;

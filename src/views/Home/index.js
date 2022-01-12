@@ -27,7 +27,7 @@ export default function Home({ navigation }) {
   const [content, setContent] = useState([]);
 
   function Add() {
-    navigation.navigate("Register");
+    navigation.navigate("NewContact");
   }
 
   function Show(id) {
@@ -102,7 +102,11 @@ export default function Home({ navigation }) {
             <Text style={styles.textRegular}>FAVORITOS</Text>
           </View>
           {contactsFavorite.map((t) => (
-            <Contacts name={t.name} onPress={() => Show(t._id)} />
+            <Contacts
+              key={`${t._id}favorite`}
+              name={t.name}
+              onPress={() => Show(t._id)}
+            />
           ))}
           <View style={styles.itemsOnTheLeft}>
             <Text style={styles.textRegular}>A</Text>

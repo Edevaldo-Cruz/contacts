@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Home from "./views/Home";
 import Register from "./views/Register";
+import NewContact from "./views/NewContact";
 import Change from "./views/Change";
 import QRCode from "./views/QRCode";
 
@@ -16,6 +17,11 @@ export default function Routes() {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="NewContact"
+          component={NewContact}
           options={{ headerShown: false }}
         />
         <Stack.Screen

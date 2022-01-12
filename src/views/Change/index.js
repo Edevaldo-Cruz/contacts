@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Modal,
+} from "react-native";
 
 import styles from "./styles";
 
@@ -9,12 +16,14 @@ import arrow from "../../assets/arrow-back.png";
 import contact from "../../assets/contact.png";
 import phone from "../../assets/phone.png";
 import sms from "../../assets/sms.png";
-import change from "../../assets/change.png";
 import heartInactive from "../../assets/heartInactive.png";
 import hearActive from "../../assets/hearActive.png";
 import imgEdit from "../../assets/edit.png";
+import menu from "../../assets/menu-vertical.png";
 
 export default function Change({ navigation, route }) {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [id, setId] = useState(route.params.paramKey);
   const [name, setName] = useState();
   const [surname, setSurname] = useState();
@@ -35,21 +44,7 @@ export default function Change({ navigation, route }) {
       setAddress(response.data.address);
       setGr(response.data.group);
       setFavorite(response.data.favorite);
-      setId(response.data._id);
     });
-  }
-  async function Show() {
-    await api.get(`/contacts/${id}`),
-      {
-        name,
-        surname,
-        email,
-        company,
-        number,
-        address,
-        gr,
-        favorite,
-      };
   }
 
   async function UpdateFavorite() {
@@ -60,15 +55,11 @@ export default function Change({ navigation, route }) {
     navigation.navigate("Home");
   }
 
-  function edit() {
-    navigation.navigate("Register");
-  }
-
   function qrcode() {
     navigation.navigate("QRCode");
   }
 
-  function ShowRegister(id) {
+  function Show(id) {
     navigation.navigate("Register", {
       paramKey: id,
     });
@@ -76,17 +67,35 @@ export default function Change({ navigation, route }) {
 
   useEffect(() => {
     LoadContact();
-    Show();
   }, []);
 
   return (
     <>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <TouchableOpacity>
+              <Text>Deletar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <View style={styles.container}>
         <View style={styles.containerTitle}>
           <TouchableOpacity onPress={back}>
             <Image source={arrow} />
           </TouchableOpacity>
           <Text style={styles.title}>{gr}</Text>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Image source={menu} />
+          </TouchableOpacity>
         </View>
         <View style={styles.containerContact}>
           <View style={styles.image}>
@@ -147,7 +156,7 @@ export default function Change({ navigation, route }) {
           )}
 
           <TouchableOpacity
-            onPress={() => ShowRegister(id)}
+            onPress={() => Show(id)}
             style={styles.containerFooter}
           >
             <Image source={imgEdit} />
