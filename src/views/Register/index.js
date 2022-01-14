@@ -32,7 +32,7 @@ export default function Register({ navigation, route }) {
 
   const [id, setId] = useState(route.params.paramKey);
   const [name, setName] = useState();
-  const [phone, setPhone] = useState();
+  const [number, setNumber] = useState();
   const [surname, setSurname] = useState();
   const [email, setEmail] = useState();
   const [company, setCompany] = useState();
@@ -43,7 +43,7 @@ export default function Register({ navigation, route }) {
   async function LoadContact() {
     await api.get(`/contacts/${id}`).then((response) => {
       setName(response.data.name);
-      setPhone(response.data.number);
+      setNumber(response.data.number);
       setSurname(response.data.surname);
       setEmail(response.data.email);
       setCompany(response.data.company);
@@ -54,20 +54,21 @@ export default function Register({ navigation, route }) {
   }
 
   async function Save() {
-    if (!phone) return Alert.alert("Inclua o numero do contato.");
+    if (!number) return Alert.alert("Inclua o numero do contato.");
 
     if (id) {
-      await api.put(`/contacts/${id}`),
-        {
+      await api
+        .put(`/contacts/${id}`, {
           name,
           surname,
           email,
           company,
-          phone,
+          number,
           address,
           gr,
           favorite,
-        }.then(
+        })
+        .then(
           () =>
             Alert.alert("Contato salvo", "", [
               {},
@@ -77,18 +78,7 @@ export default function Register({ navigation, route }) {
             ]),
           navigation.navigate("Home")
         );
-    } else
-      await api.post(`/contacts/`),
-        {
-          name,
-          phone,
-          surname,
-          email,
-          company,
-          address,
-          gr,
-          favorite,
-        }.then(() => navigation.navigate("Home"));
+    }
   }
 
   function back() {
@@ -178,8 +168,8 @@ export default function Register({ navigation, route }) {
           <TextInput
             style={styles.placeholder}
             placeholder="Celular"
-            onChangeText={(number) => setPhone(number)}
-            value={phone}
+            onChangeText={(text) => setNumber(text)}
+            value={number}
           />
         </View>
 

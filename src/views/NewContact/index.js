@@ -32,7 +32,7 @@ export default function NewContact({ navigation }) {
 
   const [id, setId] = useState();
   const [name, setName] = useState();
-  const [phone, setPhone] = useState();
+  const [number, setNumber] = useState();
   const [surname, setSurname] = useState();
   const [email, setEmail] = useState();
   const [company, setCompany] = useState();
@@ -41,11 +41,11 @@ export default function NewContact({ navigation }) {
   const [favorite, setFavorite] = useState();
 
   async function Save() {
-    if (!phone) return Alert.alert("Inclua o numero do contato.");
+    if (!number) return Alert.alert("Inclua o numero do contato.");
     await api
       .post("/contacts/", {
         name,
-        phone,
+        number,
         surname,
         email,
         company,
@@ -53,10 +53,9 @@ export default function NewContact({ navigation }) {
         gr,
         favorite,
       })
-      .then(() =>
-        Alert.alert(name, phone, surname, email, company, address, gr, favorite)
-      );
-    // navigation.navigate("Home"));
+      .then(() => {
+        navigation.navigate("Home");
+      });
   }
 
   function back() {
@@ -99,8 +98,8 @@ export default function NewContact({ navigation }) {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
-          <TouchableNativeFeedback onPress={closeModal}>
+        <TouchableNativeFeedback onPress={closeModal}>
+          <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Adicionar outros campos</Text>
               <TouchableOpacity onPress={addSurname} style={styles.textImage}>
@@ -142,8 +141,8 @@ export default function NewContact({ navigation }) {
                 </TouchableOpacity>
               </View>
             </View>
-          </TouchableNativeFeedback>
-        </View>
+          </View>
+        </TouchableNativeFeedback>
       </Modal>
 
       <View style={styles.container}>
@@ -195,9 +194,9 @@ export default function NewContact({ navigation }) {
           <TextInput
             style={styles.placeholder}
             placeholder="Celular"
-            onChangeText={(number) => setPhone(number)}
+            onChangeText={(number) => setNumber(number)}
             keyboardType="numeric"
-            value={phone}
+            value={number}
           />
         </View>
         {btnEmail && (

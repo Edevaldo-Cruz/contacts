@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  TouchableNativeFeedback,
 } from "react-native";
 
 import styles from "./styles";
@@ -51,6 +52,24 @@ export default function Change({ navigation, route }) {
     await api.put(`/contacts/${id}`, { favorite });
   }
 
+  async function DeleteContact() {
+    await api.delete(`/contacts/${id}`).then(() => {
+      setModalVisible(!modalVisible), back();
+    });
+  }
+
+  async function Warning() {
+    Alert.alert(
+      "Excluir este contato?",
+      `Excluir as infomações de contato de ${name} deste dispositivo?`,
+      [
+        { text: "Cancelar" },
+        { text: "Excluir", onPress: () => DeleteContact() },
+      ],
+      { cancelable: true }
+    );
+  }
+
   function back() {
     navigation.navigate("Home");
   }
@@ -63,6 +82,10 @@ export default function Change({ navigation, route }) {
     navigation.navigate("Register", {
       paramKey: id,
     });
+  }
+
+  function closeModal() {
+    setModalVisible(!modalVisible);
   }
 
   useEffect(() => {
@@ -79,13 +102,15 @@ export default function Change({ navigation, route }) {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-            <TouchableOpacity>
-              <Text>Deletar</Text>
-            </TouchableOpacity>
+        <TouchableNativeFeedback onPress={closeModal}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TouchableOpacity onPress={Warning}>
+                <Text style={styles.textModal}>Deletar o contato</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableNativeFeedback>
       </Modal>
       <View style={styles.container}>
         <View style={styles.containerTitle}>
