@@ -37,25 +37,44 @@ export default function NewContact({ navigation }) {
   const [email, setEmail] = useState();
   const [company, setCompany] = useState();
   const [address, setAddress] = useState();
-  const [gr, setGr] = useState();
+  const [group, setGroup] = useState();
   const [favorite, setFavorite] = useState();
 
   async function Save() {
     if (!number) return Alert.alert("Inclua o numero do contato.");
-    await api
-      .post("/contacts/", {
-        name,
-        number,
-        surname,
-        email,
-        company,
-        address,
-        gr,
-        favorite,
-      })
-      .then(() => {
-        navigation.navigate("Home");
-      });
+    if (btnGroup == true) {
+      setGroup(selectionGroup);
+      if (group) {
+        await api
+          .post("/contacts/", {
+            name,
+            number,
+            surname,
+            email,
+            company,
+            address,
+            group,
+            favorite,
+          })
+          .then(() => {
+            navigation.navigate("Home");
+          });
+      }
+    } else {
+      await api
+        .post("/contacts/", {
+          name,
+          number,
+          surname,
+          email,
+          company,
+          address,
+          favorite,
+        })
+        .then(() => {
+          navigation.navigate("Home");
+        });
+    }
   }
 
   function back() {
@@ -225,8 +244,7 @@ export default function NewContact({ navigation }) {
             <View style={styles.containerPicker}>
               <Picker
                 selectedValue={selectionGroup}
-                onValueChange={(itemValue, itemIndex) => setSelectionGroup(gr)}
-                placeholder="Selecione o Grupo"
+                onValueChange={(itemValue) => setSelectionGroup(itemValue)}
               >
                 <Picker.Item label=" " value=" " />
                 <Picker.Item label="Familia" value="Familia" />
